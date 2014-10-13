@@ -8,8 +8,13 @@ class Microtops:
     interpolation with the Angstrom exponent
 
     File should be in CSV format, as produced by the instrument.
+
+    This module requires:
+    * numpy
+    * pandas
+    * dateutil
     """
-    
+
     def __init__(self, filename):
         self.filename = filename
         self._load_file(filename)
