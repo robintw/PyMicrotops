@@ -4,18 +4,8 @@ import sys
 import time
 import logging
 
-def read_microtops_serial():
-    print "MICROTOPS II Reading Software"
-    print "by Robin Wilson"
-    print "-----------------------------"
-    # Get the parameters either from the command-line or by asking the user
-    if len(sys.argv) < 3:
-        port = raw_input("Enter the serial port to use (eg. COM8 for Robin's PC):\n")
-        outfile = raw_input("Enter the full path to the file to write to:\n")
-    else:
-        port = sys.argv[1]
-        outfile = sys.argv[2]
-    print "Reading data..."
+
+def read_serial_data(port, outfile, comment=None, gui=False):
     # Open the given serial port
     ser = serial.Serial(port, timeout=1)
     logging.info("Initiated communication")
@@ -33,15 +23,19 @@ def read_microtops_serial():
     ser.close()
     # We don't want the first two lines of the data (just tells us that it is Microtops data) or the last one (just says END)
     data = data[2:-1]
-    # Replace all \r (carriage return) and \n (newline) characters
-    # and then add the comment to the end of the line
-    print "An overview of the AOT and PWC data are below:"
-    for line in data:
-        spl = line.split(",")
-        print spl[26] + "\t" + spl[-2]
-    print ""
-    comment = raw_input("Enter a comment for the data:\n")
-    data = [line.replace("\r", "").replace("\n", "") + ",%s\n" % comment for line in data]
+
+    if gui is True:
+        # Replace all \r (carriage return) and \n (newline) characters
+        # and then add the comment to the end of the line
+        print "An overview of the AOT and PWC data are below:"
+        for line in data:
+            spl = line.split(",")
+            print spl[26] + "\t" + spl[-2]
+        print ""
+        comment = raw_input("Enter a comment for the data:\n")
+    elif comment is not None:
+        data = [line.replace("\r", "").replace("\n", "") + ",%s\n" % comment for line in data]
+
     if os.path.exists(outfile):
         logging.info("File already exists, so appending.")
         # Already has header, so we don't need to write a header again
@@ -61,5 +55,22 @@ def read_microtops_serial():
     f.close()
     print "Data saved to %s. Exiting" % outfile
 
+
+def read_microtops_gui():
+    print "MICROTOPS II Reading Software"
+    print "by Robin Wilson"
+    print "-----------------------------"
+    # Get the parameters either from the command-line or by asking the user
+
+    port = raw_input("Enter the serial port to use (eg. COM8 for Robin's PC):\n")
+    outfile = raw_input("Enter the full path to the file to write to:\n")
+
+    print "Reading data..."
+    read_serial_data(outfile, port, gui=True)
+
 if __name__ == '__main__':
-    read_microtops_serial()
+    if len(sys.argv) == 3:
+        port = sys.argv[1]
+        outfile = sys.argv[2]
+    else:
+        read_microtops_gui()
