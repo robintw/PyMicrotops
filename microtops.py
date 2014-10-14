@@ -35,7 +35,7 @@ class Microtops:
 
         self._process_wavelengths()
 
-    def plot(self, wavelengths=None, start_time=None, end_time=None):
+    def plot(self, wavelengths=None, start_time=None, end_time=None, **kwargs):
         data = self.data[start_time:end_time]
 
         if wavelengths is None:
@@ -44,7 +44,7 @@ class Microtops:
         col_names = map(lambda x: 'AOT%d' % (int(x)), wavelengths)
 
         print col_names
-        data.ix[:, col_names].plot()
+        data.ix[:, col_names].plot(**kwargs)
 
     def _process_wavelengths(self):
         """
