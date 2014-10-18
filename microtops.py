@@ -70,8 +70,24 @@ class Microtops:
             # First we choose the two closest wavelengths
             wvs = np.array(self.wavelengths)
             diff = wavelength - wvs
-            wv_below = wvs[np.argmin(diff[diff > 0])]
-            wv_above = wvs[np.argmin(diff[diff < 0])]
+            try:
+                wv_below = wvs[np.argmin(diff[diff > 0])]
+            except ValueError:
+                # If the above line of code gave an error then we
+                # are dealing with a wavelength lower than the minimum wavelength
+                # therefore we will be extrapolating, so print a warning
+                print "Warning: extrapolating using Angstrom coefficient"
+                # and then use the lowest wavelength we have
+                wv_below = wvs[0]
+            try:
+                wv_above = wvs[np.argmin(diff[diff < 0])]
+            except ValueError:
+                # If the above line of code gave an error then we
+                # are dealing with a wavelength higher than the maximum wavelength
+                # therefore we will be extrapolating, so print a warning
+                print "Warning: extrapolating using Angstrom coefficient"
+                # and then use the lowest wavelength we have
+                wv_below = wvs[-1]
 
             aot_below = data["AOT%d" % wv_below]
             aot_above = data["AOT%d" % wv_above]
