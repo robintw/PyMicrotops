@@ -17,11 +17,23 @@ class Microtops:
     """
 
     def __init__(self, filename):
+        """
+        Create an Microtops object from a given Microtops data file (in CSV format, as provided by the instrument
+
+        :param filename: Filename of Microtops data to read
+        :return:
+        """
         self.filename = filename
         self._load_file(filename)
 
     @classmethod
     def read_from_serial(self, port, filename, **kwargs):
+        """
+        Read data from a Microtops attached to the computer via a serial port.
+
+        port: Device to read from (eg. COM3 or /dev/serial0 etc)
+        filename: Filename to save the data to
+        """
         read_serial_data(port, filename, **kwargs)
         return Microtops(filename)
 
@@ -36,6 +48,10 @@ class Microtops:
         self._process_wavelengths()
 
     def plot(self, wavelengths=None, start_time=None, end_time=None, **kwargs):
+        """
+        Plot the AOT data, with an optional set of wavelengths (as a list), and
+        a start and end time as strings.
+        """
         data = self.data[start_time:end_time]
 
         if wavelengths is None:
@@ -56,6 +72,16 @@ class Microtops:
         self.wavelengths = wvs
 
     def aot(self, wavelength, start_time=None, end_time=None):
+        """
+        Get AOT at a given wavelength.
+
+        Returned as a pandas Series over the range of start_time to end_time.
+
+        :param wavelength: Wavelength at which AOT should be retrieved (in nm)
+        :param start_time: Start time for temporal subsetting (as a string in yyyy-mm-dd hh:mm:ss)
+        :param end_time: End time for temporal subsetting (as a string in yyyy-mm-dd hh:mm:ss)
+        :return:
+        """
         data = self.data[start_time:end_time]
 
         wavelength = int(wavelength)
