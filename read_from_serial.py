@@ -44,9 +44,10 @@ def read_serial_data(port, outfile, comment=None, gui=False):
     else:
         # Doesn't have a header, so write everything
         towrite = data
-        # We need to replace the comment that was added to the header line above
-        # with the header for that field - in this case COMMENT
-        towrite[0] = towrite[0].replace(comment, "COMMENT")
+        if comment is not None:
+            # We need to replace the comment that was added to the header line above
+            # with the header for that field - in this case COMMENT
+            towrite[0] = towrite[0].replace(comment, "COMMENT")
 
     # Open a file and write the lines to it
     logging.info("Writing data")
