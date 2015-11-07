@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 from dateutil.parser import parse
-from read_from_serial import read_serial_data
+from .read_from_serial import read_serial_data
+
 
 class Microtops:
     """Loads and processes a data file from the Microtops handheld sun photometer.
@@ -18,7 +19,8 @@ class Microtops:
 
     def __init__(self, filename):
         """
-        Create an Microtops object from a given Microtops data file (in CSV format, as provided by the instrument
+        Create an Microtops object from a given Microtops data file
+        (in CSV format, as provided by the instrument)
 
         :param filename: Filename of Microtops data to read
         :return:
@@ -57,9 +59,8 @@ class Microtops:
         if wavelengths is None:
             wavelengths = self.wavelengths
 
-        col_names = map(lambda x: 'AOT%d' % (int(x)), wavelengths)
+        col_names = ['AOT%d' % (int(x)) for x in wavelengths]
 
-        print col_names
         data.ix[:, col_names].plot(**kwargs)
 
     def _process_wavelengths(self):
@@ -67,7 +68,7 @@ class Microtops:
         Extract wavelengths from the column headers
         """
         aot_cols = [c for c in self.data.columns if 'AOT' in c]
-        wvs = map(lambda x: int(x.replace('AOT', '')), aot_cols)
+        wvs = [int(x.replace('AOT', '')) for x in aot_cols]
 
         self.wavelengths = wvs
 
@@ -102,7 +103,7 @@ class Microtops:
                 # If the above line of code gave an error then we
                 # are dealing with a wavelength lower than the minimum wavelength
                 # therefore we will be extrapolating, so print a warning
-                print "Warning: extrapolating using Angstrom coefficient"
+                print("Warning: extrapolating using Angstrom coefficient")
                 # and then use the lowest wavelength we have
                 wv_below = wvs[0]
             try:
@@ -111,7 +112,7 @@ class Microtops:
                 # If the above line of code gave an error then we
                 # are dealing with a wavelength higher than the maximum wavelength
                 # therefore we will be extrapolating, so print a warning
-                print "Warning: extrapolating using Angstrom coefficient"
+                print("Warning: extrapolating using Angstrom coefficient")
                 # and then use the lowest wavelength we have
                 wv_below = wvs[-1]
 
@@ -122,6 +123,6 @@ class Microtops:
             angstrom = -1 * (np.log(aot_below / aot_above) / (np.log(float(wv_below) / wv_above)))
 
             # Then we use the exponent to interpolate
-            result = aot_below * ((float(wavelength) / wv_below)**(-1*angstrom))
+            result = aot_below * ((float(wavelength) / wv_below) ** (-1 * angstrom))
 
             return result

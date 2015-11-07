@@ -21,18 +21,19 @@ def read_serial_data(port, outfile, comment=None, gui=False):
     data = ser.readlines()
     # Remember to close the serial port or we'll have problems!
     ser.close()
-    # We don't want the first two lines of the data (just tells us that it is Microtops data) or the last one (just says END)
+    # We don't want the first two lines of the data
+    # (just tells us that it is Microtops data) or the last one (just says END)
     data = data[2:-1]
 
     if gui is True:
         # Replace all \r (carriage return) and \n (newline) characters
         # and then add the comment to the end of the line
-        print "An overview of the AOT and PWC data are below:"
+        print("An overview of the AOT and PWC data are below:")
         for line in data:
             spl = line.split(",")
-            print spl[26] + "\t" + spl[-2]
-        print ""
-        comment = raw_input("Enter a comment for the data:\n")
+            print((spl[26] + "\t" + spl[-2]))
+        print("")
+        comment = input("Enter a comment for the data:\n")
     elif comment is not None:
         data = [line.replace("\r", "").replace("\n", "") + ",%s\n" % comment for line in data]
 
@@ -54,19 +55,19 @@ def read_serial_data(port, outfile, comment=None, gui=False):
     f = open(outfile, 'a')
     f.writelines(towrite)
     f.close()
-    print "Data saved to %s. Exiting" % outfile
+    print("Data saved to %s. Exiting" % outfile)
 
 
 def read_microtops_gui():
-    print "MICROTOPS II Reading Software"
-    print "by Robin Wilson"
-    print "-----------------------------"
+    print("MICROTOPS II Reading Software")
+    print("by Robin Wilson")
+    print("-----------------------------")
     # Get the parameters either from the command-line or by asking the user
 
-    port = raw_input("Enter the serial port to use (eg. COM8 for Robin's PC):\n")
-    outfile = raw_input("Enter the full path to the file to write to:\n")
+    port = input("Enter the serial port to use (eg. COM8 for Robin's PC):\n")
+    outfile = input("Enter the full path to the file to write to:\n")
 
-    print "Reading data..."
+    print("Reading data...")
     read_serial_data(outfile, port, gui=True)
 
 if __name__ == '__main__':
