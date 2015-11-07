@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from dateutil.parser import parse
 from .read_from_serial import read_serial_data
+from matplotlib.pyplot import xlabel, ylabel, legend
 
 
 class Microtops:
@@ -62,6 +63,9 @@ class Microtops:
         col_names = ['AOT%d' % (int(x)) for x in wavelengths]
 
         data.ix[:, col_names].plot(**kwargs)
+        legend(loc='best')
+        xlabel('Time')
+        ylabel('AOT')
 
     def _process_wavelengths(self):
         """
