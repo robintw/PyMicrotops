@@ -2,8 +2,12 @@
 
 This is a Python module to simplify working with data from the Microtops sun photometer.
 
-There are two principal functions at the moment: 1) Processing Microtops data (including interpolating AOT at other
-wavelengths and 2) Reading Microtops data from the instrument over a serial connection.
+There are two principal functions at the moment:
+
+1) Processing Microtops data files (including interpolating AOT at other wavelengths)
+
+2) Reading Microtops data from the instrument over a serial connection, and
+saving/processing the data.
 
 The module is fairly well documented with docstrings, so a fairly quick example should be all that's needed:
 
