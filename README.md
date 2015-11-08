@@ -9,6 +9,8 @@ There are two principal functions at the moment:
 2) Reading Microtops data from the instrument over a serial connection, and
 saving/processing the data.
 
+PyMicrotops is available on PyPI, so install by running `pip install PyMicrotops`
+
 The module is fairly well documented with docstrings, so a fairly quick example should be all that's needed:
 
 ```python
