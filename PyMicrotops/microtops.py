@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from dateutil.parser import parse
-from .read_from_serial import read_serial_data
+from .read_from_serial import read_microtops_serial
 from matplotlib.pyplot import xlabel, ylabel, legend
 
 
@@ -37,7 +37,7 @@ class Microtops:
         port: Device to read from (eg. COM3 or /dev/serial0 etc)
         filename: Filename to save the data to
         """
-        read_serial_data(port, filename, **kwargs)
+        read_microtops_serial(port, filename, **kwargs)
         return Microtops(filename)
 
     def _load_file(self, filename):

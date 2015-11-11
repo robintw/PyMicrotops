@@ -5,7 +5,7 @@ import time
 import logging
 
 
-def read_serial_data(port, outfile, comment=None, gui=False):
+def read_microtops_serial(port, outfile, comment=None, gui=False):
     # Open the given serial port
     ser = serial.Serial(port, timeout=1)
     logging.info("Initiated communication")
@@ -64,15 +64,21 @@ def read_microtops_gui():
     print("-----------------------------")
     # Get the parameters either from the command-line or by asking the user
 
-    port = input("Enter the serial port to use (eg. COM8 for Robin's PC):\n")
+    port = input("Enter the serial port to use (eg. COM8 or /dev/serial):\n")
     outfile = input("Enter the full path to the file to write to:\n")
 
     print("Reading data...")
-    read_serial_data(outfile, port, gui=True)
+    read_microtops_serial(outfile, port, gui=True)
 
-if __name__ == '__main__':
+
+def main():
     if len(sys.argv) == 3:
         port = sys.argv[1]
         outfile = sys.argv[2]
+        read_microtops_serial(port, outfile)
     else:
         read_microtops_gui()
+
+
+if __name__ == '__main__':
+    main()
