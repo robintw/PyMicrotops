@@ -48,7 +48,7 @@ setup(
         name                  = "PyMicrotops",
         packages              = ['PyMicrotops'],
         install_requires      = reqs,
-        version               = "1.0.1",
+        version               = "1.1.0",
         author                = "Robin Wilson",
         author_email          = "robin@rtwilson.com",
         description           = ("A module to read and process data from the Microtops sun photometer, including reading via serial link and interpolating to AOT at any wavelength"),
