@@ -54,6 +54,9 @@ setup(
         description           = ("A module to read and process data from the Microtops sun photometer, including reading via serial link and interpolating to AOT at any wavelength"),
         license               = "BSC",
         url                   = "https://github.com/robintw/PyMicrotops",
+        entry_points          = {'console_scripts': [
+              'read_microtops = PyMicrotops.read_from_serial:main'
+          ]},
         long_description      = read_file('PyPI_README.rst'),
         classifiers           =[
         "Development Status :: 5 - Production/Stable",
