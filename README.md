@@ -1,5 +1,7 @@
 # PyMicrotops
 
+**Note: A new version of PyMicrotops has been released which is compatible with Python 3. This version is maintained by the NERC Field Spectroscopy Facility, and is available at https://github.com/NERC-FieldSpectroscopyFacility/PyMicrotops3. It has all the functionality of this version *except* the comment function. Please use this new version where possible.**
+
 This is a Python module to simplify working with data from the Microtops sun photometer.
 
 The functionality is split into two parts at the moment:
